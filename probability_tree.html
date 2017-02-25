@@ -5,15 +5,15 @@
     </head>
     <body>
         <div>
-            Number of red: <input type="text" id="red" value="3" onchange="inputChange()"></input>
+            Number of red: <input type="text" id="red" value="5" onchange="inputChange()"></input>
             Number of blue: <input type="text" id="blue" value="4" onchange="inputChange()"></input>
-            Depth: <select id="depth">
+            Depth: <select id="depth" onchange="inputChange()">
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3" selected>3</option>
                 <option value="4">4</option>
             </select>
-            With replacement: <input type="checkbox" id="withRepl" checked="true"></input>
+            With replacement: <input type="checkbox" id="withRepl" checked="true" onchange="inputChange()"></input>
         </div>
         <canvas id="canvas" height="640" width="900"></canvas>
         <script src="probability_tree.js"></script>
