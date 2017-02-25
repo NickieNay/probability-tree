@@ -19,6 +19,78 @@ function inputChange(){
     drawStructure();
 }
 
+function branch(initX, initY, numReds, numBlues, currentRank, history){
+    this.xi = initX;
+    this.yi = initY;
+    this.reds = numReds;
+    this.blues = numBlues;
+    this.rank = currentRank;
+    this.hist = history;
+
+    var pRed = (numReds / (numReds + numBlues)).toFixed(2);
+    var pBlue = (numBlues / (numReds + numBlues)).toFixed(2);
+
+    this.drawBranches = function(){
+      var deltaY = canvas.height / (2 * Math.pow(2, this.rank + 1));
+      var deltaX = 160;
+
+      var lineFinalX = initX + 20 + deltaX;
+
+      //upper line
+      context.fillStyle = "#000000";
+      context.moveTo(initX + 20, initY);
+      context.lineTo(lineFinalX, initY - deltaY);
+      context.stroke();
+
+      var tx = initX + 20 + (deltaX / 2);
+      var ty = initY - (deltaY / 2);
+      ty = parseInt(ty) - 10;
+      tx = parseInt(tx) - 30;
+      context.fillText(pRed, tx, ty);
+
+      //lower line
+      context.moveTo(initX + 20, initY);
+      context.lineTo(initX + 20 + deltaX, initY + deltaY);
+      context.stroke();
+
+      ty = initY + (deltaY / 2);
+      ty = parseInt(ty) + 20;
+      context.fillText(pBlue, tx, ty);
+
+      //red circle
+      var centX = lineFinalX + 20;
+      var centY = initY - deltaY;
+      var redGrd = context.createRadialGradient(centX + 3, centY - 3, 0, centX + 3, centY - 3, 10);
+      redGrd.addColorStop(0, "#f44242");
+      redGrd.addColorStop(1, "red");
+      context.beginPath();
+      context.arc(centX, centY, 15, 0, 2*Math.PI);
+      context.fillStyle=redGrd;
+      context.fill();
+
+      var centX = lineFinalX + 20;
+      var centY = initY + deltaY;
+      var grdBlue = context.createRadialGradient(centX + 3, centY - 3, 0, centX + 3, centY - 3, 10);
+      grdBlue.addColorStop(0, "#4144f4");
+      grdBlue.addColorStop(1, "blue");
+      context.beginPath();
+      context.arc(centX, centY, 15, 0, 2*Math.PI);
+      context.fillStyle=grdBlue;
+      context.fill();
+    }
+    this.nextRedCoords = function() {
+      return [linefinalX + 20, initY - deltaY];
+    }
+
+    this.nextBlueCoords = function() {
+      return [linefinalX + 20, initY + deltaY];
+    }
+}
+
+function init(){
+  
+}
+
 function drawStructure(){
     // First rank
     drawLine(0,300,180,180);//1
@@ -84,4 +156,6 @@ function drawStructure(){
     }
 }
 
-drawStructure();
+//drawStructure();
+var testBranch = new branch(0,canvas.height/2,reds, blues, 0);
+testBranch.drawBranches();
